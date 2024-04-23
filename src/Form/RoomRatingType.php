@@ -15,15 +15,23 @@ class RoomRatingType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('comment', TextType::class)
+            ->add('comment', TextType::class, [
+                'attr' => [
+                    'class' => 'form-control comment-box',
+                ],
+            ])
             ->add('rating', null, [
                 'constraints' => [
                     new Range([
                         'min' => 1,
                         'max' => 5,
                         'notInRangeMessage' => 'La note doit être comprise entre 1 et 5',
-                    ])
-                ]
+                    ]),
+                ],
+                'attr' => [
+                    'class' => 'form-control rating-box',
+                    'placeholder' => 'Note sur 5',
+                ],
             ])
             ->add('client', HiddenType::class, [
                 'data' => $options['client']->getId(),
@@ -45,7 +53,7 @@ class RoomRatingType extends AbstractType
         $resolver->setDefaults([
             'data_class' => RoomRating::class,
         ]);
-    
+
         $resolver->setDefined(['client', 'room']);
     }
 }

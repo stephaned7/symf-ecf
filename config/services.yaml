@@ -7,9 +7,9 @@ parameters:
     stripe_sk: '%env(STRIPE_SK)%'
     stripe_pk: '%env(STRIPE_pk)%'
     stripe_webhook_secret: '%env(STRIPE_WEBHOOK_SECRET)%'
-
+    app.locale: [en, fr]
 services:
-    # default configuration for services in *this* file
+    # default configuration for services n *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.

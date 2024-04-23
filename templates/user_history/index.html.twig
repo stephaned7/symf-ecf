@@ -29,7 +29,14 @@
 						h
 					</h6>
 					<p class="card-text">{{ r.description }}</p>
+					<div class="btns d-flex flex-column">
 					<a href="{{ path('app_rating', {'id': r.getSalle().getId()}) }}" class='btn btn-primary'>Laisser un avis</a>
+					<a href="{{ path('app_reservation_delete', {'id': r.id}) }}" class='btn btn-danger mt-2' onclick="return confirm('êtes vous sur de vouloir d'annuler cette réservation?');">Annuler ma réservation</a>
+					</div>
+
+
+
+
 				</div>
 			</div>
 		{% endif %}
