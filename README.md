@@ -21,7 +21,9 @@ composer require symfony/translation
 composer require stripe/stripe-php
 
 Se rendre sur le lien suivant et télécharger la dernère version selon l'OS:
+
 https://github.com/stripe/stripe-cli/releases
+
 windows: https://github.com/stripe/stripe-cli/releases/download/v1.19.4/stripe_1.19.4_windows_x86_64.zip
 
 Décompresser le fichier et mettre 'stripe.exe' en variable d'environement.
