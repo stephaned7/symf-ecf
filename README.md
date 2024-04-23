@@ -1,7 +1,7 @@
 composer install
 
-Créer une base de données sur phpmyadmin
-Modifier la ligne suivante dans le fichier '.env'
+Créer une base de données sur phpmyadmin, puis
+modifier la ligne suivante dans le fichier '.env'
 
 -------------------------------------------------- décommenter et mettre vos infos ici: --------------------------------------------------
 DATABASE_URL="mysql://app:!NomD'utilisateur!@127.0.0.1:3306/!NomDeBdd!?serverVersion=8.0.32&charset=utf8mb4"
