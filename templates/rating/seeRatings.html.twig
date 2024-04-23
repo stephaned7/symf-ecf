@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Avis{% endblock %}
+
+{% block body %}
+    {% for r in ratings %}
+        {{ r.comment}}
+    {% endfor %}
+{% endblock %}

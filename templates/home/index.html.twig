@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil
+{% endblock %}
+
+{% block body %}
+
+	{% if  app.user and app.user.isBanned == true %}
+		<div class="alert alert-danger" role="alert">
+			Vous avez été banni, vous ne pouvez plus accéder à nos services.
+		</div>
+	{% else %}
+		<h1 class='text-center'>Bienvenue</h1>
+	{% endif %}
+
+
+{% endblock %}
