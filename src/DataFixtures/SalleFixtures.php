@@ -5,7 +5,6 @@ namespace App\DataFixtures;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Faker\Factory;
 use App\Entity\Salle;
-use App\Repository\SalleRepository;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 

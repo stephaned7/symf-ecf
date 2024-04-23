@@ -22,17 +22,18 @@ class ReservationController extends AbstractController
     #[Route('/{id}', name: 'app_reservation', methods: ['GET'])]
     public function index($id, ReservationRepository $reservationRepository, ManagerRegistry $doctrine, Security $security): Response
     {
-        if(!$security->isGranted('IS_NOT_BANNED')){
+        if (!$security->isGranted('IS_NOT_BANNED')) {
             return $this->redirectToRoute('app_home');
         }
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
+
+
         $salle = $doctrine->getRepository(Salle::class)->find($id);
 
-        // Vérifier si la salle existe
         if (!$salle) {
-            $this->addFlash('error', 'La salle avec l\'ID ' . $id . ' n\'existe pas.');  // Affiche un message d'erreur
-            return $this->redirectToRoute('app_salle');  // Redirige vers une route par défaut ou une page d'erreur
+            $this->addFlash('error', 'La salle avec l\'ID ' . $id . ' n\'existe pas.');
+            return $this->redirectToRoute('app_salle');
         }
 
         $events = $reservationRepository->findAll();
@@ -56,17 +57,17 @@ class ReservationController extends AbstractController
         ]);
     }
 
-    #[Route('/new/{id}', name: 'app_reservation_new', methods: ['GET','POST'])]
+    #[Route('/new/{id}', name: 'app_reservation_new', methods: ['GET', 'POST'])]
     public function new(int $id, Request $request, EntityManagerInterface $entityManager, ManagerRegistry $doctrine, Security $security): Response
     {
 
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-        if(!$security->isGranted('IS_NOT_BANNED')){
+        if (!$security->isGranted('IS_NOT_BANNED')) {
             return $this->redirectToRoute('app_home');
         }
 
         $user = $this->getUser();
-        if($user->getSubscription() == null){
+        if ($user->getSubscription() == null) {
             $this->addFlash('error', 'Vous devez souscrire à un abonnement pour effectuer une réservation.');
             return $this->redirectToRoute('app_sub');
         }
@@ -76,17 +77,17 @@ class ReservationController extends AbstractController
 
         // Vérifier si la salle existe
         if (!$salle) {
-            throw $this->createNotFoundException('La salle avec l\'ID '.$salle.' n\'existe pas.');
+            throw $this->createNotFoundException('La salle avec l\'ID ' . $salle . ' n\'existe pas.');
         }
 
         $reservation = new Reservation();
         $reservation->setSalle($salle);
-        
+
         $form = $this->createForm(ReservationType::class, $reservation, [
             'users' => $this->getUser()
         ]);
         $form->handleRequest($request);
-        $reservation->setUsers($this->getUser());   
+        $reservation->setUsers($this->getUser());
 
         // Traiter le formulaire lorsqu'il est soumis
         if ($form->isSubmitted() && $form->isValid()) {
@@ -95,15 +96,15 @@ class ReservationController extends AbstractController
             $end = $reservation->getEnd();
             $interval = $start->diff($end);
             $hours = $interval->h + $interval->days * 24;
-            if($hours < 1 || $hours > 4) {
+            if ($hours < 1 || $hours > 4) {
                 $this->addFlash('error', 'La durée de réservation doit être entre 1h minimum et 4h maximum.');
                 return $this->redirectToRoute('app_reservation_new', ['id' => $id]);
             }
 
             //Vérifier si une reservation existe deja sur ce créneaux
             $conflictingReservations = $doctrine->getRepository(Reservation::class)->findByConflictingReservations($salle, $start, $end);
-            
-            if(!empty($conflictingReservations)){
+
+            if (!empty($conflictingReservations)) {
                 $this->addFlash('error', 'Il y a déjà une réservation pour ce créneau.');
                 return $this->redirectToRoute('app_reservation_new', ['id' => $id]);
             }
@@ -117,23 +118,23 @@ class ReservationController extends AbstractController
 
         return $this->render('reservation/new.html.twig', [
             'form' => $form->createView(),
-            'salle' =>  $salle
+            'salle' => $salle
         ]);
     }
     #[Route('/handler', name: 'app_handler', methods: ['GET'])]
-    public function showAll( ReservationRepository $reservationRepository, ManagerRegistry $doctrine, Security $security): Response
+    public function showAll(ReservationRepository $reservationRepository, ManagerRegistry $doctrine, Security $security): Response
     {
         $users = $doctrine->getRepository(User::class)->findAll();
         $events = $reservationRepository->findAll();
-      
-        if(!$security->isGranted('IS_NOT_BANNED')){
+
+        if (!$security->isGranted('IS_NOT_BANNED')) {
             return $this->redirectToRoute('app_home');
         }
 
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
 
-        foreach($events as $event){
+        foreach ($events as $event) {
             $rdvs[] = [
                 'id' => $event->getId(),
                 'start' => $event->getStart()->format('Y-m-d H:i:s'),
@@ -148,7 +149,7 @@ class ReservationController extends AbstractController
         return $this->render('reservation/showAll.html.twig', [
             'events' => $events,
             'users' => $users,
-   
+
         ]);
     }
 
@@ -156,7 +157,7 @@ class ReservationController extends AbstractController
     public function show(Reservation $reservation, Security $security): Response
     {
 
-        if(!$security->isGranted('IS_NOT_BANNED')){
+        if (!$security->isGranted('IS_NOT_BANNED')) {
             return $this->redirectToRoute('app_home');
         }
 
@@ -195,7 +196,7 @@ class ReservationController extends AbstractController
 
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
-        if ($this->isCsrfTokenValid('delete'.$reservation->getId(), $request->getPayload()->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $reservation->getId(), $request->getPayload()->get('_token'))) {
             $entityManager->remove($reservation);
             $entityManager->flush();
         }
