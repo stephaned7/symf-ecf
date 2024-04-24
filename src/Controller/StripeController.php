@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use Stripe;
 use App\Entity\Plan;
-use App\Entity\User;
 use App\Entity\Subscription;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -37,8 +36,7 @@ class StripeController extends AbstractController
                 return $this->redirectToRoute('app_sub');
             }
         }
-
-        $user = $doctrine->getRepository(User::class)->findBannedUsers();
+        
         $plan = $doctrine->getRepository(Plan::class)->find($id);
         $sub = $doctrine->getRepository(Subscription::class)->findAll();
 

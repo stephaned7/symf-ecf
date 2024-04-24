@@ -14,7 +14,7 @@
 <div class="row mx-4">
 	{% for r in reservationList %}
 		{% if r.getUsers().getId() == app.user.id %}
-			<div class="card border-secondary mx-2" style="max-width: 18rem;">
+			<div class="card border-secondary mx-2 my-2" style="max-width: 18rem;">
 				<div class="card-header">{{ r.title }}</div>
 				<div class="card-body text-secondary">
 					<h5 class="card-title">Salle

@@ -5,6 +5,12 @@
 
 {% block body %}
 
+		{% for message in app.flashes('danger') %}
+			<div class="alert alert-danger">
+				{{ message }}
+			</div>
+		{% endfor %}
+
 	<h1 class='text-center mb-5'>Abonnez vous pour acceder à nos services</h1>
 
 	{% if app.user is not defined or app.user is null %}

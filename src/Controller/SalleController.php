@@ -3,9 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Salle;
-use App\Entity\RoomRating;
-use App\Repository\SalleRepository;
-use App\Repository\RoomRatingRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Response;

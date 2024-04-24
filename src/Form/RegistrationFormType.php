@@ -13,6 +13,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
@@ -139,6 +140,10 @@ class RegistrationFormType extends AbstractType
                 'label_attr' => [
                     'class' => 'custom-bold'
                 ],
+            ])
+            ->add('roles', HiddenType::class, [
+                'data' => 'ROLE_USER',
+                'mapped' => false,
             ])
             ->add('password', RepeatedType::class, [
                 'type' => PasswordType::class,
